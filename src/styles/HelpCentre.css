@@ -129,6 +129,7 @@
 }
 
 .help-centre-main {
+  margin-top: 2rem;
   display: flex;
   margin-bottom: 3rem;
   gap: 30px;

@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/PrivacyPolicy.css';
 import Footer from './Footer';
 
 const PrivacyPolicy: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="privacy-policy-page">
       <div className="simple-header">
         <div className="simple-header-content">
           <Link to="/" className="logo-link">
             <img src="https://ngratesc.sirv.com/i-claim/serviify/logo.png" alt="Serviify Logo" />
-            <span>Serviify</span>
+            <span>Privacy Policy</span>
           </Link>
           <Link to="/" className="back-link">
             <i className="bi bi-arrow-left"></i> Back to Homepage
@@ -20,7 +24,6 @@ const PrivacyPolicy: React.FC = () => {
       
       <div className="privacy-policy-container">
         <div className="privacy-policy-content">
-          <h1 className="privacy-policy-title">Privacy Policy</h1>
           
           <section className="privacy-policy-section">
             <h2>1. Introduction</h2>

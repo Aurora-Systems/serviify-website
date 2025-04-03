@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
               <h3 className="footer-title">Quick Links</h3>
               <ul className="footer-links">
                 <li><Link to="/">Home</Link></li>
-                <li><a href="/about">About Us</a></li>
+                <li><Link to="/about">About Us</Link></li>
                 <li><a href="/services">Services</a></li>
                 <li><a href="/contact">Contact</a></li>
                 <li><Link to="/terms-of-service">Terms of Service</Link></li>

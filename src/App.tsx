@@ -10,6 +10,8 @@ import Hero from './components/Hero';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import HelpCentre from './components/HelpCentre';
 import TermsOfService from './components/TermsOfService';
+import About from './components/About';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   const [email, set_email] = useState("");
@@ -53,6 +55,7 @@ function App() {
   
   return (
     <div className="app">
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={
           <>
@@ -78,6 +81,10 @@ function App() {
         
         <Route path="/help-centre" element={
           <HelpCentre />
+        } />
+        
+        <Route path="/about" element={
+          <About />
         } />
       </Routes>
       

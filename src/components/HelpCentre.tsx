@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/HelpCentre.css';
 import Footer from './Footer';
@@ -16,6 +16,10 @@ interface FaqCategory {
 const HelpCentre: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState(0);
   const [openItems, setOpenItems] = useState<{ [key: number]: boolean }>({});
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const categories: FaqCategory[] = [
     {
@@ -101,7 +105,7 @@ const HelpCentre: React.FC = () => {
         <div className="simple-header-content">
           <Link to="/" className="logo-link">
             <img src="https://ngratesc.sirv.com/i-claim/serviify/logo.png" alt="Serviify Logo" />
-            <span>Serviify</span>
+            <span>Help Centre</span>
           </Link>
           <Link to="/" className="back-link">
             <i className="bi bi-arrow-left"></i> Back to Homepage
@@ -111,7 +115,6 @@ const HelpCentre: React.FC = () => {
       
       <div className="help-centre-container">
         <div className="help-centre-content-wrapper">
-          <h1 className="help-centre-title">Help Centre</h1>
           
           <div className="help-centre-main">
             <div className="help-categories">

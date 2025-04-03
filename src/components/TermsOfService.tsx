@@ -38,6 +38,10 @@ const TermsOfService: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="terms-of-service-page">
       <div className="simple-header">

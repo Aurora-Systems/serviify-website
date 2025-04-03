@@ -5,6 +5,7 @@
   background-color: white;
   color: #333;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif;
+  position: relative;
 }
 
 /* Header Styles */
@@ -160,21 +161,22 @@
   width: 100%;
   margin: 0;
   padding: 0;
+  align-items: flex-start;
 }
 
 .terms-sidebar {
   display: none;
-  position: fixed;
+  position: sticky;
   top: 70px;
   left: 0;
   width: 280px;
   box-sizing: border-box;
   padding: 20px;
-  height: calc(100vh - 70px);
+  max-height: calc(100vh - 70px);
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(41, 48, 64, 0.3) transparent;
-  z-index: 50;
+  align-self: flex-start;
   border-right: 1px solid rgba(0, 0, 0, 0.05);
   background-color: white;
 }
@@ -211,8 +213,8 @@
 @media (min-width: 768px) {
   .terms-content {
     width: calc(100% - 280px);
-    margin-left: 280px;
-    padding: 30px 40px 60px;
+    margin-left: 0;
+    padding: 30px 40px 80px;
   }
 }
 
@@ -402,8 +404,8 @@
     left: 0;
     width: 100%;
     height: auto;
+    max-height: none;
     padding: 0;
-    z-index: 90;
     background-color: white;
     border-right: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
@@ -526,4 +528,9 @@
   .terms-section p {
     font-size: 1rem;
   }
+}
+
+/* Ensure footer displays correctly */
+.terms-of-service-page .site-footer {
+  position: relative;
 } 
