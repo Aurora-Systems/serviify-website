@@ -10,7 +10,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ 
   title,
-  setShowSignup, 
+  setShowSignup,
   setShowHelpCentre 
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -76,13 +76,12 @@ const Navbar: React.FC<NavbarProps> = ({
         </div>
         
         <div className="navbar-buttons">
-          <Link to="/auth" className="sign-in-btn">
+          <Link to="/auth" className="sign-in-btn" onClick={() => setShowSignup(false)}>
             Sign up
           </Link>
-          <button className="try-free-btn" onClick={() => {
-            setShowSignup(true);
+          <Link to="/provider-search" className="try-free-btn text-decoration-none" onClick={() => {
             setMenuOpen(false);
-          }}>Find a provider</button>
+          }}>Find a provider</Link>
         </div>
         
         <div className="mobile-menu-btn" onClick={handleMenuToggle}>

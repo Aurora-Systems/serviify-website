@@ -12,6 +12,7 @@ import Auth from './components/Auth';
 import ScrollToTop from './components/ScrollToTop';
 import Support from './components/Support';
 
+
 function App() {
   const navigate = useNavigate();
 
@@ -69,6 +70,9 @@ function App() {
         <Route path="/support" element={
           <Support />
         } />
+        
+        
+      
       </Routes>
       
       <ToastContainer />
