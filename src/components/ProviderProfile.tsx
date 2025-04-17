@@ -16,16 +16,16 @@ import {
   DocumentText,
   Profile2User,
   Location,
-  MessageText1,
-  Like1,
   Bookmark,
-  Forbidden,
   InfoCircle,
+  CloseCircle,
 } from 'iconsax-react';
 import type { Provider, GalleryItem, Post } from "../services/providers.service"
 import { ProvidersService } from "../services/providers.service"
-import { ApiConstants } from "../lib/api/apiConstants"
 import logo from "../assets/logo.png"
+import placeholderPost from "../assets/posts/post.png"
+import placeholderGallery from "../assets/gallery/gallary.png"
+import placeholderReview from "../assets/providers/provider_4.png"
 
 export default function ProviderProfile() {
   const { id } = useParams<{ id: string }>()
@@ -35,8 +35,8 @@ export default function ProviderProfile() {
   const [activeTab, setActiveTab] = useState<'posts' | 'gallery' | 'reviews'>('posts')
   const [viewMode, setViewMode] = useState<'activity' | 'introduction' | 'contact'>('activity')
   const [isFollowing, setIsFollowing] = useState(false)
-  const [isFollowLoading, setIsFollowLoading] = useState(false)
-  const [isUserSignedIn, setIsUserSignedIn] = useState(false)
+  const [isFollowLoading] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
  
   // Breakpoints for Masonry layout
   const breakpointColumnsObj = {
@@ -92,70 +92,19 @@ export default function ProviderProfile() {
     }
 
     fetchProviderData()
-    
-    // Check if user is signed in
-    const checkUserSignedIn = () => {
-      const token = localStorage.getItem('auth_token') || getCookie('auth_token');
-      setIsUserSignedIn(!!token);
-    }
-    
-    checkUserSignedIn();
   }, [id])
-
-  // Helper function to get cookie value
-  const getCookie = (name: string): string | null => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
-    return null;
-  }
 
   const handleFollowToggle = async () => {
     if (!id || !provider) return
     
-    // Redirect to signup if user is not signed in
-    if (!isUserSignedIn) {
-      window.location.href = '/auth?mode=signup';
-      return;
-    }
-    
-    try {
-      setIsFollowLoading(true)
-      
-      const endpoint = `/interactions/toggle-follow`
-      const response = await fetch(`${ApiConstants.baseUrl}${endpoint}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          targetUserId: id 
-        }),
-        credentials: 'include' // Send cookies for authentication
-      })
-      
-      if (!response.ok) {
-        throw new Error('Failed to toggle follow status')
-      }
-      
-      // Toggle following state after successful API call
-      setIsFollowing((prev) => !prev)
-      
-      // Update follows count
-      if (provider) {
-        setProvider({
-          ...provider,
-          follows_count: isFollowing 
-            ? (provider.follows_count || 0) - 1 
-            : (provider.follows_count || 0) + 1
-        })
-      }
-    } catch (error) {
-      console.error('Error toggling follow status:', error)
-      setError("Failed to toggle follow status. Please try again later.")
-    } finally {
-      setIsFollowLoading(false)
-    }
+    // Open modal instead of redirecting
+    setIsModalOpen(true)
+  }
+
+  // New function to handle button clicks
+  const handleButtonClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setIsModalOpen(true)
   }
 
   // Format date string to a more readable format
@@ -255,8 +204,61 @@ export default function ProviderProfile() {
       minHeight: "100vh",
       display: "flex",
       flexDirection: "column",
-      backgroundColor: "#f8f9fa"
+      backgroundColor: "#f8f9fa",
+      position: isModalOpen ? "relative" : "static"
     }}>
+      {/* Sign Up Modal */}
+      {isModalOpen && (
+        <div className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" 
+             style={{ 
+               backgroundColor: "rgba(0,0,0,0.5)", 
+               zIndex: 1050,
+             }}>
+          <div className="bg-white p-4 rounded-3 shadow" style={{ maxWidth: "400px", width: "90%" }}>
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h5 className="m-0">Create an Account</h5>
+              <button 
+                className="btn btn-sm" 
+                onClick={(e) => { e.preventDefault(); setIsModalOpen(false); }}
+                style={{ color: "#293040" }}
+              >
+                <CloseCircle size="24" />
+              </button>
+            </div>
+            <p>Join Serviify to connect with service providers, leave reviews, and more!</p>
+            <div className="d-flex flex-column gap-2 mt-4">
+              <Link 
+                to="/auth?mode=signup" 
+                className="start-now-btn" 
+                style={{ 
+                  textAlign: "center",
+                  padding: "10px 0"
+                }}
+              >
+                Create Account
+              </Link>
+              <Link 
+                to="/auth?mode=login" 
+                className="btn" 
+                style={{ 
+                  borderColor: "#293040",
+                  color: "#293040",
+                  textAlign: "center" 
+                }}
+              >
+                Log In
+              </Link>
+              <button 
+                className="btn btn-link text-muted" 
+                onClick={(e) => { e.preventDefault(); setIsModalOpen(false); }}
+              >
+                Continue as Guest
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <header className="py-3 border-bottom bg-white shadow-sm">
         <div className="container">
           <div className="d-flex align-items-center">
@@ -318,7 +320,6 @@ export default function ProviderProfile() {
                         width: "160px", 
                         height: "160px", 
                         objectFit: "cover", 
-                        border: "5px solid white",
                         boxShadow: "0 5px 15px rgba(0,0,0,0.08)",
                         transition: "transform 0.3s ease",
                         backgroundColor: !provider.profile_image_url ? '#eee' : 'transparent'
@@ -362,7 +363,7 @@ export default function ProviderProfile() {
                     <p className="card-text text-muted">No bio information available.</p>
                   )}
 
-                  {/* Skills Section - ADDED */}
+                  {/* Skills Section*/}
                   {provider.provider_skills && provider.provider_skills.length > 0 && (
                     <div className="mt-4">
                       <h5 className="card-title border-bottom pb-2 mb-3">Skills</h5>
@@ -384,12 +385,7 @@ export default function ProviderProfile() {
                         </p>
                       </div>
                      )}
-                     {provider.provider_location && (
-                       <div className="text-end">
-                        <h5 className="card-title mb-2">Location</h5>
-                        <p className="card-text">{provider.provider_location.split(',').map((part: string, i: number) => <span key={i} className="d-block">{part.trim()}</span>)}</p>
-                      </div>
-                     )}
+                    
                   </div>
 
                 </div>
@@ -554,16 +550,20 @@ export default function ProviderProfile() {
                           <span>{isFollowing ? "Unfollow" : "Follow"}</span>
                         </div>
                       </button>
-                      <button className="btn" style={{ 
-                        minWidth: "130px", 
-                        padding: "10px 16px",
-                        borderColor: "#293040",
-                        color: "#293040",
-                        fontWeight: "500",
-                        borderRadius: "8px",
-                        transition: "all 0.2s ease",
-                        boxShadow: "0 2px 5px rgba(41, 48, 64, 0.1)" 
-                      }}>
+                      <button 
+                        className="btn" 
+                        style={{ 
+                          minWidth: "130px", 
+                          padding: "10px 16px",
+                          borderColor: "#293040",
+                          color: "#293040",
+                          fontWeight: "500",
+                          borderRadius: "8px",
+                          transition: "all 0.2s ease",
+                          boxShadow: "0 2px 5px rgba(41, 48, 64, 0.1)" 
+                        }}
+                        onClick={handleButtonClick}
+                      >
                         <div className="d-flex align-items-center justify-content-center">
                           <Messages1 size="16" className="me-2" />
                           <span>Contact</span>
@@ -685,50 +685,58 @@ export default function ProviderProfile() {
                         {provider.posts.slice(0, 2).map((post: Post) => (
                           <div key={post.id} className="card mb-3 border-0 shadow-sm">
                             <div className="card-body">
-                              <div className="d-flex align-items-center mb-3">
-                                <img 
-                                  src={provider.profile_image_url || logo} 
-                                  alt={`${provider.first_name} ${provider.last_name}`}
-                                  className="rounded-circle me-2"
-                                  style={{ 
-                                    width: "40px", 
-                                    height: "40px", 
-                                    objectFit: "cover",
-                                    backgroundColor: !provider.profile_image_url ? '#eee' : 'transparent'
-                                  }}
-                                  onError={(e) => {
-                                    const target = e.target as HTMLImageElement;
-                                    target.src = logo;
-                                    target.style.objectFit = 'contain';
-                                    target.alt = 'Placeholder image';
-                                  }}
-                                />
+                              <div className="d-flex justify-content-between align-items-center mb-3">
+                                <div className="d-flex align-items-center">
+                                  <img 
+                                    src={provider.profile_image_url || logo} 
+                                    alt={`${provider.first_name} ${provider.last_name}`}
+                                    className="rounded-circle me-2"
+                                    style={{ 
+                                      width: "40px", 
+                                      height: "40px", 
+                                      objectFit: "cover",
+                                      backgroundColor: !provider.profile_image_url ? '#eee' : 'transparent'
+                                    }}
+                                    onError={(e) => {
+                                      const target = e.target as HTMLImageElement;
+                                      target.src = logo;
+                                      target.style.objectFit = 'contain';
+                                      target.alt = 'Placeholder image';
+                                    }}
+                                  />
+                                  <div>
+                                    <div className="fw-bold">{provider.first_name} {provider.last_name} | SP</div>
+                                    {provider.provider_location && (
+                                      <div className="text-muted small">{provider.provider_location} • {formatDate(post.created_at)}</div>
+                                    )}
+                                  </div>
+                                </div>
                                 <div>
-                                  <div className="fw-bold">{provider.first_name} {provider.last_name}</div>
-                                  <div className="text-muted small">{formatDate(post.created_at)}</div>
+                                  <button className="btn btn-link text-dark p-0" onClick={handleButtonClick}>
+                                    <i className="bi bi-three-dots-vertical"></i>
+                                  </button>
                                 </div>
                               </div>
-                              <p className="card-text">{post.caption}</p>
+                              <p className="card-text mb-3">{post.caption}</p>
                               {post.image_url ? (
                                 <img 
                                   src={post.image_url}
                                   alt="Post image"
-                                  className="img-fluid rounded mb-3"
+                                  className="img-fluid rounded mb-3 w-100"
                                   style={{ 
-                                    maxHeight: "300px", 
+                                    maxHeight: "400px", 
                                     objectFit: "cover"
                                   }}
                                 />
                               ) : null}
-                              <div className="d-flex align-items-center">
-                                <button className="btn btn-sm text-muted me-3 d-flex align-items-center">
-                                  <Like1 size="16" className="me-1" />
-                                  <span>{post.likes_count}</span>
-                                </button>
-                                <button className="btn btn-sm text-muted d-flex align-items-center">
-                                  <MessageText1 size="16" className="me-1" />
-                                  <span>{post.comments_count}</span>
-                                </button>
+                              <div className="d-flex justify-content-between align-items-center">
+                                <div className="d-flex align-items-center">
+                                  <button className="btn p-0 me-3" onClick={handleButtonClick}>
+                                    <i className="bi bi-heart text-danger"></i>
+                                  </button>
+                                  <span className="text-muted small">{post.likes_count || 0} Likes • {post.comments_count || 0} Comments</span>
+                                </div>
+                              
                               </div>
                             </div>
                           </div>
@@ -736,19 +744,22 @@ export default function ProviderProfile() {
                         
                         {provider.posts.length > 2 && (
                           <div className="text-center mt-3 mb-2">
-                            <Link to="/auth?mode=signup" className="start-now-btn">
+                            <button className="start-now-btn" onClick={handleButtonClick}>
                               View More Posts ({provider.posts.length - 2} more)
-                            </Link>
+                            </button>
                           </div>
                         )}
                       </div>
                     ) : (
                       <div className="text-center py-4 d-flex flex-column align-items-center">
-                        <Forbidden 
-                          size="64" 
-                          color="#adb5bd"
-                          variant="Bulk"
-                          style={{ marginBottom: '1rem' }} 
+                        <img 
+                          src={placeholderPost} 
+                          alt="No posts available" 
+                          style={{ 
+                            maxWidth: '150px', 
+                            marginBottom: '1rem', 
+                            opacity: 0.6 
+                          }} 
                         />
                         <p className="text-muted mb-0">No posts available yet</p>
                       </div>
@@ -795,19 +806,22 @@ export default function ProviderProfile() {
                         
                         {provider.gallery.length > 3 && (
                           <div className="text-center mt-4">
-                            <Link to="/auth?mode=signup" className="start-now-btn">
+                            <button className="start-now-btn" onClick={handleButtonClick}>
                               View More Photos ({provider.gallery.length - 3} more)
-                            </Link>
+                            </button>
                           </div>
                         )}
                       </>
                     ) : (
                       <div className="text-center py-4 d-flex flex-column align-items-center">
-                        <Forbidden 
-                          size="64" 
-                          color="#adb5bd"
-                          variant="Bulk"
-                          style={{ marginBottom: '1rem' }} 
+                        <img 
+                          src={placeholderGallery} 
+                          alt="No gallery items available" 
+                          style={{ 
+                            maxWidth: '150px', 
+                            marginBottom: '1rem', 
+                            opacity: 0.6 
+                          }} 
                         />
                         <p className="text-muted mb-0">No gallery items available yet</p>
                       </div>
@@ -836,21 +850,24 @@ export default function ProviderProfile() {
                         
                         {provider.reviews.length > 2 && (
                           <div className="text-center mt-4">
-                            <Link to="/auth?mode=signup" className="start-now-btn">
+                            <button className="start-now-btn" onClick={handleButtonClick}>
                               View More Reviews ({provider.reviews.length - 2} more)
-                            </Link>
+                            </button>
                             <div className="text-muted small mt-2">Sign up to read all reviews</div>
                           </div>
                         )}
                       </div>
                     ) : (
                        <div className="text-center py-3 d-flex flex-column align-items-center">
-                         <Forbidden 
-                           size="64" 
-                           color="#adb5bd" 
-                           variant="Bulk"
-                           style={{ marginBottom: '1rem' }} 
-                         />
+                         <img 
+                          src={placeholderReview} 
+                          alt="No reviews available" 
+                          style={{ 
+                            maxWidth: '150px', 
+                            marginBottom: '1rem', 
+                            opacity: 0.6 
+                          }} 
+                        />
                         <p className="text-muted mb-0">No Reviews Available</p>
                         <p className="text-muted small mt-1">Be the first to leave a review for this provider</p>
                       </div>
