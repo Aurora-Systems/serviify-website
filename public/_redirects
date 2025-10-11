@@ -1,4 +1,4 @@
 # Proxy all /app traffic to the Azure web app
-/app    https://serviify-dvfjbwbvg5avgkh6.southcentralus-01.azurewebsites.net   200
+/app    https://serviify-web-gjhff6ddbmh3cdbg.southafricanorth-01.azurewebsites.net/   200
 
 /* /index.html 200
