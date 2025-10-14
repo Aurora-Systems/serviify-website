@@ -1,4 +1,4 @@
-# Proxy all /app traffic to the Azure web app
-/app    https://serviify-web-gjhff6ddbmh3cdbg.southafricanorth-01.azurewebsites.net/   200
+# Redirect all /app traffic to the Azure web app
+/app    https://serviify-web-gjhff6ddbmh3cdbg.southafricanorth-01.azurewebsites.net/   301!
 
 /* /index.html 200
