@@ -128,24 +128,24 @@ export default function Auth() {
 
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault()
-    // Redirect to /app for signup
-    navigate("/app")
+    // Redirect to /app for signup - use window.location for full page navigation
+    window.location.href = "/app"
   }
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    // Redirect to /app for login
-    navigate("/app")
+    // Redirect to /app for login - use window.location for full page navigation
+    window.location.href = "/app"
   }
 
   const handleGoogleSignIn = () => {
-    // Redirect to /app for Google sign-in
-    navigate("/app")
+    // Redirect to /app for Google sign-in - use window.location for full page navigation
+    window.location.href = "/app"
   }
 
   const handleAppleSignIn = () => {
-    // Redirect to /app for Apple sign-in
-    navigate("/app")
+    // Redirect to /app for Apple sign-in - use window.location for full page navigation
+    window.location.href = "/app"
   }
 
   return (
