@@ -46,9 +46,9 @@ const PrivacyPolicy: React.FC = () => {
           </div>
           
           <div className="navbar-buttons">
-            <Link to="/auth" className="sign-in-btn" onClick={handleNavLinkClick}>
+            <a href="/app" className="sign-in-btn" onClick={handleNavLinkClick}>
               Sign up
-            </Link>
+            </a>
             <button className="try-free-btn" onClick={() => {
               handleNavLinkClick();
               goToAuth();

@@ -60,9 +60,9 @@ const Hero: React.FC<HeroProps> = () => {
               Simple, reliable use, yet <span> affordable!</span>
             </p>
             <div className="hero-cta">
-              <Link to="/auth" className="start-now-btn">
+              <a href="/app" className="start-now-btn">
                 Get Started <i className="bi bi-arrow-right"></i>
-              </Link>
+              </a>
               <Link to="/support" className="contact-us-btn">
                 Contact Us <i className="bi bi-arrow-right"></i>
               </Link>
