@@ -256,7 +256,7 @@
   }
 
   .navbar-links.active .mobile-only-link,
-  .navbar-links.active a[href="/auth"],
+  .navbar-links.active a[href="/app"],
   .navbar-links.active a[href="/provider-search"] {
     display: block;
     margin: 0;

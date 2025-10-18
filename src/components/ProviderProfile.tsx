@@ -236,8 +236,8 @@ export default function ProviderProfile() {
             </div>
             <p>Join Serviify to connect with service providers, leave reviews, and more!</p>
             <div className="d-flex flex-column gap-2 mt-4">
-              <Link 
-                to="/auth?mode=signup" 
+              <a 
+                href="/app" 
                 className="start-now-btn" 
                 style={{ 
                   textAlign: "center",
@@ -245,9 +245,9 @@ export default function ProviderProfile() {
                 }}
               >
                 Create Account
-              </Link>
-              <Link 
-                to="/auth?mode=login" 
+              </a>
+              <a 
+                href="/app" 
                 className="btn" 
                 style={{ 
                   borderColor: "#293040",
@@ -256,7 +256,7 @@ export default function ProviderProfile() {
                 }}
               >
                 Log In
-              </Link>
+              </a>
               <button 
                 className="btn btn-link text-muted" 
                 onClick={(e) => { e.preventDefault(); setIsModalOpen(false); }}
@@ -288,8 +288,8 @@ export default function ProviderProfile() {
             </div>
             <p>Sign up to refer this service request to other providers in your network!</p>
             <div className="d-flex flex-column gap-2 mt-4">
-              <Link 
-                to="/auth?mode=signup" 
+              <a 
+                href="/app" 
                 className="start-now-btn" 
                 style={{ 
                   textAlign: "center",
@@ -297,9 +297,9 @@ export default function ProviderProfile() {
                 }}
               >
                 Create Account
-              </Link>
-              <Link 
-                to="/auth?mode=login" 
+              </a>
+              <a 
+                href="/app" 
                 className="btn" 
                 style={{ 
                   borderColor: "#293040",
@@ -308,7 +308,7 @@ export default function ProviderProfile() {
                 }}
               >
                 Log In
-              </Link>
+              </a>
               <button 
                 className="btn btn-link text-muted" 
                 onClick={() => setIsReferModalOpen(false)}
@@ -335,10 +335,10 @@ export default function ProviderProfile() {
                 <ArrowLeft2 size="16" className="header-btn-icon" />
                 <span className="header-btn-text">Search</span>
               </Link>
-              <Link to="/auth?mode=login" className="header-btn header-btn-primary">
+              <a href="/app" className="header-btn header-btn-primary">
                 <User size="16" className="header-btn-icon" />
                 <span className="header-btn-text">Sign in</span>
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -540,9 +540,9 @@ export default function ProviderProfile() {
                 </div>
                 
                 <div className="text-center">
-                  <Link to="/auth?mode=signup" className="start-now-btn w-100">
+                  <a href="/app" className="start-now-btn w-100">
                     Join the Network
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

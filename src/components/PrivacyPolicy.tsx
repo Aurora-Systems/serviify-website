@@ -15,8 +15,8 @@ const PrivacyPolicy: React.FC = () => {
     navigate('/help-centre');
   };
 
-  const goToAuth = () => {
-    navigate('/auth');
+  const goToProviders = () => {
+    navigate('/provider-search');
   };
 
   const handleMenuToggle = () => {
@@ -51,7 +51,7 @@ const PrivacyPolicy: React.FC = () => {
             </a>
             <button className="try-free-btn" onClick={() => {
               handleNavLinkClick();
-              goToAuth();
+              goToProviders();
             }}>Find a provider</button>
           </div>
           

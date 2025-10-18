@@ -21,10 +21,6 @@ const About: React.FC = () => {
     navigate('/help-centre');
   };
 
-  const goToAuth = () => {
-    navigate('/auth');
-  };
-
   const goToProviders = () => {
     navigate('/provider-search');
   };

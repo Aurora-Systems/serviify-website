@@ -150,8 +150,8 @@ export default function ProviderSearch() {
 
             {/* Sign In Button */}
             <div className="col-auto">
-              <Link 
-                to="/auth?mode=login" 
+              <a 
+                href="/app" 
                 className="btn btn-outline-dark px-3 py-2"
                 style={{
                   borderColor: "#293040",
@@ -160,7 +160,7 @@ export default function ProviderSearch() {
                 }}
               >
                 Sign in
-              </Link>
+              </a>
             </div>
           </div>
         </div>

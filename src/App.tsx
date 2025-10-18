@@ -1,5 +1,5 @@
 import {ToastContainer} from "react-toastify";
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import Navbar from './components/Navbar';
@@ -84,13 +84,8 @@ function App() {
           <About />
         } />
         
-        <Route path="/auth" element={
-          <Auth />
-        } />
-        
-        <Route path="/forgot-password" element={
-          <Auth />
-        } />
+        <Route path="/auth" element={<Navigate to="/app" replace />} />
+        <Route path="/forgot-password" element={<Navigate to="/app" replace />} />
         
         <Route path="/support" element={
           <Support />

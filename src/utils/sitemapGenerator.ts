@@ -53,7 +53,7 @@ export class SitemapGenerator {
         priority: 0.6
       },
       {
-        loc: `${this.BASE_URL}/auth`,
+        loc: `${this.BASE_URL}/app`,
         lastmod: new Date().toISOString().split('T')[0],
         changefreq: 'monthly',
         priority: 0.5
